@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Package | Vision Mate</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%) fixed;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #222;
+        }
+
+        .track-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 32px 24px;
+            box-sizing: border-box;
+        }
+
+        .track-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+            color: #185a9d;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(67, 206, 162, 0.08);
+        }
+
+        .track-input-section {
+            margin-bottom: 32px;
+        }
+
+        .track-label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+            color: #185a9d;
+        }
+
+        .track-input {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #43cea2;
+            font-size: 1rem;
+            background: #f4f6fb;
+            color: #222;
+            transition: border 0.2s;
+        }
+
+        .track-input:focus {
+            border: 1.5px solid #185a9d;
+            outline: none;
+        }
+
+        .track-btn {
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(106, 17, 203, 0.08);
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .track-btn:hover {
+            background: linear-gradient(90deg, #2575fc, #6a11cb);
+            box-shadow: 0 4px 16px rgba(106, 17, 203, 0.16);
+        }
+
+        .track-result {
+            display: none;
+            background: #f7f7fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .track-status {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .status-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .status-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #185a9d;
+            margin-bottom: 8px;
+        }
+
+        .status-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .track-timeline {
+            margin-top: 24px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-item.completed {
+            background: linear-gradient(90deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            border-left: 4px solid #6a11cb;
+        }
+
+        .timeline-item.current {
+            background: linear-gradient(90deg, rgba(67, 206, 162, 0.1), rgba(24, 90, 157, 0.1));
+            border-left: 4px solid #43cea2;
+        }
+
+        .timeline-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            color: #185a9d;
+            margin-bottom: 4px;
+        }
+
+        .timeline-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .track-info {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #185a9d;
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .track-container {
+                padding: 12px 2vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="navbar-logo" aria-label="Vision Mate Home">👁️ Vision Mate</a>
+        <ul class="navbar-links">
+            <li><a href="../index.html#login">Login</a></li>
+            <li><a href="signup.html">Signup</a></li>
+            <li><a href="buy.html">Buy</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="track-container">
+            <div class="track-title">Track Your Package</div>
+            <div class="track-input-section">
+                <label class="track-label" for="trackingNumber">Enter Tracking Number</label>
+                <input class="track-input" id="trackingNumber" type="text"
+                    placeholder="Enter your tracking number here...">
+                <button class="track-btn" id="trackBtn">Track Package</button>
+            </div>
+            <div class="track-result" id="trackResult">
+                <div class="track-status">
+                    <div class="status-icon">📦</div>
+                    <div class="status-text" id="statusText">In Transit</div>
+                    <div class="status-desc" id="statusDesc">Your package is on its way to you</div>
+                </div>
+                <div class="track-timeline">
+                    <div class="timeline-item completed">
+                        <div class="timeline-icon">✅</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Order Placed</div>
+                            <div class="timeline-desc">Your order has been confirmed</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <div class="timeline-icon">🏭</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Processing</div>
+                            <div class="timeline-desc">Package is being prepared</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item current">
+                        <div class="timeline-icon">🚚</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">In Transit</div>
+                            <div class="timeline-desc">Package is on its way</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">📮</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Out for Delivery</div>
+                            <div class="timeline-desc">Package will be delivered today</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">🏠</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Delivered</div>
+                            <div class="timeline-desc">Package has been delivered</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <div class="info-row">
+                        <span class="info-label">Tracking Number:</span>
+                        <span class="info-value" id="trackingNum">VM123456789</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Estimated Delivery:</span>
+                        <span class="info-value">2-3 business days</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Current Location:</span>
+                        <span class="info-value">Mumbai, Maharashtra</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Carrier:</span>
+                        <span class="info-value">Vision Mate Express</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-toggle" id="chatbotToggle">💬</button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <span>Vision Mate Chatbot</span>
+                <button class="chatbot-close" id="chatbotClose">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">Hi! How can I help you with Vision Mate today?</div>
+            </div>
+            <form class="chatbot-input-area" id="chatbotForm">
+                <input type="text" id="chatbotInput" placeholder="Type your message..." autocomplete="off" required />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Track package functionality
+        const trackBtn = document.getElementById('trackBtn');
+        const trackResult = document.getElementById('trackResult');
+        const trackingInput = document.getElementById('trackingNumber');
+        const statusText = document.getElementById('statusText');
+        const statusDesc = document.getElementById('statusDesc');
+        const trackingNum = document.getElementById('trackingNum');
+
+        trackBtn.addEventListener('click', function () {
+            const trackingNumber = trackingInput.value.trim();
+            if (!trackingNumber) {
+                alert('Please enter a tracking number');
+                return;
+            }
+
+            // Show result
+            trackResult.style.display = 'block';
+            trackingNum.textContent = trackingNumber;
+
+            // Simulate different statuses based on tracking number
+            if (trackingNumber.toLowerCase().includes('delivered')) {
+                statusText.textContent = 'Delivered';
+                statusDesc.textContent = 'Your package has been successfully delivered';
+                updateTimeline(4);
+            } else if (trackingNumber.toLowerCase().includes('out')) {
+                statusText.textContent = 'Out for Delivery';
+                statusDesc.textContent = 'Your package is out for delivery today';
+                updateTimeline(3);
+            } else if (trackingNumber.toLowerCase().includes('transit')) {
+                statusText.textContent = 'In Transit';
+                statusDesc.textContent = 'Your package is on its way to you';
+                updateTimeline(2);
+            } else {
+                statusText.textContent = 'Processing';
+                statusDesc.textContent = 'Your package is being prepared';
+                updateTimeline(1);
+            }
+        });
+
+        function updateTimeline(step) {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.classList.remove('completed', 'current');
+                if (index < step) {
+                    item.classList.add('completed');
+                } else if (index === step) {
+                    item.classList.add('current');
+                }
+            });
+        }
+
+        // Chatbot logic
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotForm = document.getElementById('chatbotForm');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+
+        function getChatbotReply(message) {
+            const msg = message.toLowerCase();
+            if (msg.includes('find') && msg.includes('spectacle')) {
+                return 'To find your spectacles, connect your device using the serial number, then select "Find Your Spectacle Instantly". Our BLE device will help you locate your glasses using WiFi and Bluetooth signals.';
+            }
+            if (msg.includes('health') || msg.includes('lens')) {
+                return 'To monitor your lens health, connect your device and select "Lens Health Monitoring System". You will see a health percentage and advice on whether your lenses are in good condition.';
+            }
+            if (msg.includes('how') && (msg.includes('use') || msg.includes('operate') || msg.includes('function'))) {
+                return 'To use Vision Mate: 1) Enter your spectacle serial number to connect. 2) Choose a function: "Find Your Spectacle Instantly" or "Lens Health Monitoring System". Follow the on-screen instructions for each feature!';
+            }
+            if (msg.includes('how') && msg.includes('website')) {
+                return 'To operate this website, start by connecting your spectacle using its serial number. Then, choose the function you want to use. The chatbot can help you with spectacle finding and lens health monitoring.';
+            }
+            return 'Sorry, I can only help with spectacle finding, using this website, and the two main functions: finding your spectacles and monitoring lens health. Please ask about these topics!';
+        }
+
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.style.display = 'block';
+            chatbotToggle.style.display = 'none';
+        });
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.style.display = 'none';
+            chatbotToggle.style.display = 'block';
+        });
+        chatbotForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const userMsg = chatbotInput.value.trim();
+            if (userMsg) {
+                const userDiv = document.createElement('div');
+                userDiv.className = 'chatbot-message user';
+                userDiv.textContent = userMsg;
+                chatbotMessages.appendChild(userDiv);
+                chatbotInput.value = '';
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                setTimeout(() => {
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'chatbot-message bot';
+                    botDiv.textContent = getChatbotReply(userMsg);
+                    chatbotMessages.appendChild(botDiv);
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }, 700);
+            }
+        });
+    </script>
+</body>
+
+</html>

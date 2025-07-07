@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Vision Mate</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%) fixed;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #222;
+        }
+
+        .checkout-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 32px 24px;
+            box-sizing: border-box;
+        }
+
+        .checkout-step {
+            display: none;
+        }
+
+        .checkout-step.active {
+            display: block;
+        }
+
+        .checkout-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+            color: #185a9d;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(67, 206, 162, 0.08);
+        }
+
+        .checkout-summary {
+            background: #f7f7fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            color: #185a9d;
+            font-weight: 500;
+        }
+
+        .checkout-label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 500;
+            color: #185a9d;
+        }
+
+        .checkout-input {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #43cea2;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            background: #f4f6fb;
+            color: #222;
+            transition: border 0.2s;
+        }
+
+        .checkout-input:focus {
+            border: 1.5px solid #185a9d;
+            outline: none;
+        }
+
+        .checkout-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .checkout-btn,
+        .order-confirm a.checkout-btn {
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(106, 17, 203, 0.08);
+            margin: 0 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .checkout-btn:disabled,
+        .order-confirm a.checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .checkout-btn:hover,
+        .order-confirm a.checkout-btn:hover {
+            background: linear-gradient(90deg, #2575fc, #6a11cb);
+            box-shadow: 0 4px 16px rgba(106, 17, 203, 0.16);
+        }
+
+        .delivery-option {
+            margin-bottom: 10px;
+        }
+
+        .order-confirm {
+            text-align: center;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(106, 17, 203, 0.08);
+            padding: 32px 18px 24px 18px;
+            margin-top: 24px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .order-confirm .confirm-icon {
+            font-size: 3.5rem;
+            color: #6a11cb;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .order-confirm .thankyou {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .checkout-container {
+                padding: 12px 2vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="navbar-logo" aria-label="Vision Mate Home">👁️ Vision Mate</a>
+        <ul class="navbar-links">
+            <li><a href="../index.html#login">Login</a></li>
+            <li><a href="signup.html">Signup</a></li>
+            <li><a href="buy.html">Buy</a></li>
+            <li><a href="track.html">Track Order</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="checkout-container">
+            <div id="step-1" class="checkout-step active">
+                <div class="checkout-title">Order Summary</div>
+                <div class="checkout-summary" id="orderSummary"></div>
+                <div class="checkout-actions">
+                    <button class="checkout-btn" id="toStep2">Next</button>
+                </div>
+            </div>
+            <div id="step-2" class="checkout-step">
+                <div class="checkout-title">Customer Information</div>
+                <label class="checkout-label" for="custName">Full Name</label>
+                <input class="checkout-input" id="custName" type="text" required>
+                <label class="checkout-label" for="custEmail">Email</label>
+                <input class="checkout-input" id="custEmail" type="email" required>
+                <label class="checkout-label" for="custPhone">Phone Number</label>
+                <input class="checkout-input" id="custPhone" type="tel" required pattern="[0-9]{10,15}">
+                <div class="checkout-actions">
+                    <button class="checkout-btn" id="backTo1">Back</button>
+                    <button class="checkout-btn" id="toStep3">Next</button>
+                </div>
+            </div>
+            <div id="step-3" class="checkout-step">
+                <div class="checkout-title">Delivery Address</div>
+                <label class="checkout-label" for="address">Address</label>
+                <input class="checkout-input" id="address" type="text" required>
+                <label class="checkout-label" for="city">City</label>
+                <input class="checkout-input" id="city" type="text" required>
+                <label class="checkout-label" for="state">State</label>
+                <input class="checkout-input" id="state" type="text" required>
+                <label class="checkout-label" for="pincode">Pincode</label>
+                <input class="checkout-input" id="pincode" type="text" required pattern="[0-9]{4,10}">
+                <label class="checkout-label" for="country">Country</label>
+                <input class="checkout-input" id="country" type="text" required value="India">
+                <div class="checkout-actions">
+                    <button class="checkout-btn" id="backTo2">Back</button>
+                    <button class="checkout-btn" id="toStep4">Next</button>
+                </div>
+            </div>
+            <div id="step-4" class="checkout-step">
+                <div class="checkout-title">Delivery Options</div>
+                <div class="delivery-option">
+                    <input type="radio" name="delivery" id="standard" value="Standard" checked>
+                    <label for="standard">Standard (4-7 days) - Free</label>
+                </div>
+                <div class="delivery-option">
+                    <input type="radio" name="delivery" id="express" value="Express">
+                    <label for="express">Express (1-2 days) - ₹199</label>
+                </div>
+                <div class="checkout-actions">
+                    <button class="checkout-btn" id="backTo3">Back</button>
+                    <button class="checkout-btn" id="toStep5">Next</button>
+                </div>
+            </div>
+            <div id="step-5" class="checkout-step">
+                <div class="checkout-title">Payment</div>
+                <div class="checkout-summary" id="paymentSummary"></div>
+                <div style="margin: 18px 0;">
+                    <label class="checkout-label">Select Payment Method</label>
+                    <div
+                        style="margin-bottom:10px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="paymethod" id="upi" value="UPI" checked>
+                            <label for="upi">🏦 UPI</label>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="paymethod" id="card" value="Card">
+                            <label for="card">💳 Card</label>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="paymethod" id="netbanking" value="Net Banking">
+                            <label for="netbanking">🏛️ Net Banking</label>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="paymethod" id="cod" value="COD">
+                            <label for="cod">💵 Cash on Delivery (25% advance)</label>
+                        </div>
+                    </div>
+                    <div id="pay-upi" class="pay-method-fields">
+                        <input class="checkout-input" id="upiId" type="text" placeholder="Enter UPI ID">
+                    </div>
+                    <div id="pay-card" class="pay-method-fields" style="display:none;">
+                        <input class="checkout-input" id="cardNum" type="text" placeholder="Card Number">
+                        <input class="checkout-input" id="cardName" type="text" placeholder="Name on Card">
+                        <input class="checkout-input" id="cardExpiry" type="text" placeholder="MM/YY">
+                        <input class="checkout-input" id="cardCVV" type="password" placeholder="CVV">
+                    </div>
+                    <div id="pay-netbanking" class="pay-method-fields" style="display:none;">
+                        <input class="checkout-input" id="bankName" type="text" placeholder="Bank Name">
+                        <input class="checkout-input" id="bankAcc" type="text" placeholder="Account Number">
+                    </div>
+                    <div id="pay-cod" class="pay-method-fields" style="display:none;">
+                        <div style="margin-bottom:8px; color:#c0392b; font-weight:500;">
+                            You need to pay 25% advance: <span id="codAdvance"></span>
+                        </div>
+                        <input class="checkout-input" id="codUpi" type="text" placeholder="Enter UPI ID for advance">
+                    </div>
+                </div>
+                <div style="text-align:center; margin: 18px 0;">
+                    <button class="checkout-btn" id="payNow">Pay Now</button>
+                </div>
+                <div class="checkout-actions">
+                    <button class="checkout-btn" id="backTo4">Back</button>
+                </div>
+            </div>
+            <div id="step-6" class="checkout-step">
+                <div class="checkout-title">Order Confirmed!</div>
+                <div class="order-confirm">
+                    <span class="confirm-icon">🎉</span>
+                    <span class="thankyou">Thank you for your purchase!</span>
+                    <p>Your order has been placed successfully.</p>
+                    <div class="checkout-summary" id="confirmSummary"></div>
+                    <a href="../index.html" class="checkout-btn" style="margin-top:18px;">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-toggle" id="chatbotToggle">💬</button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <span>Vision Mate Chatbot</span>
+                <button class="chatbot-close" id="chatbotClose">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">Hi! How can I help you with Vision Mate today?</div>
+            </div>
+            <form class="chatbot-input-area" id="chatbotForm">
+                <input type="text" id="chatbotInput" placeholder="Type your message..." autocomplete="off" required />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Multi-step checkout logic
+        try {
+            const steps = [1, 2, 3, 4, 5, 6];
+            let currentStep = 1;
+            let order = {
+                product: '',
+                quantity: 1,
+                customer: {},
+                address: {},
+                delivery: 'Standard',
+                deliveryCost: 0,
+                total: 0
+            };
+
+            // Parse URL params
+            const params = new URLSearchParams(window.location.search);
+            order.product = params.get('product') || '';
+            order.quantity = parseInt(params.get('quantity')) || 1;
+
+            // Product price lookup
+            const prices = {
+                'Vision Mate Smart Spectacle Device': 2499,
+                'Lens Cleaner': 199,
+                'Lens Cleaner Cloth': 99,
+                'Spectacle Transparent': 1299,
+                'Specs Box': 249
+            };
+
+            function showStep(n) {
+                try {
+                    steps.forEach(s => {
+                        const stepElement = document.getElementById('step-' + s);
+                        if (stepElement) {
+                            stepElement.classList.remove('active');
+                        }
+                    });
+                    const currentStepElement = document.getElementById('step-' + n);
+                    if (currentStepElement) {
+                        currentStepElement.classList.add('active');
+                        currentStep = n;
+                    } else {
+                        console.error('Step element not found:', 'step-' + n);
+                    }
+                } catch (error) {
+                    console.error('Error in showStep:', error);
+                }
+            }
+
+            // Step 1: Order summary
+            function renderOrderSummary() {
+                try {
+                    const price = prices[order.product] || 0;
+                    order.total = price * order.quantity;
+                    const orderSummaryElement = document.getElementById('orderSummary');
+                    if (orderSummaryElement) {
+                        orderSummaryElement.innerHTML = `
+                            <b>Product:</b> ${order.product}<br>
+                            <b>Quantity:</b> ${order.quantity}<br>
+                            <b>Price:</b> ₹${price} x ${order.quantity} = <b>₹${order.total}</b>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error in renderOrderSummary:', error);
+                }
+            }
+
+            // Initialize event listeners when DOM is loaded
+            document.addEventListener('DOMContentLoaded', function () {
+                try {
+                    // Step 2: Customer info
+                    const toStep2Btn = document.getElementById('toStep2');
+                    if (toStep2Btn) {
+                        toStep2Btn.onclick = function () {
+                            showStep(2);
+                        };
+                    }
+
+                    const backTo1Btn = document.getElementById('backTo1');
+                    if (backTo1Btn) {
+                        backTo1Btn.onclick = function () {
+                            showStep(1);
+                        };
+                    }
+
+                    const toStep3Btn = document.getElementById('toStep3');
+                    if (toStep3Btn) {
+                        toStep3Btn.onclick = function () {
+                            // Validate
+                            const name = document.getElementById('custName')?.value?.trim() || '';
+                            const email = document.getElementById('custEmail')?.value?.trim() || '';
+                            const phone = document.getElementById('custPhone')?.value?.trim() || '';
+                            if (!name || !email || !phone) {
+                                alert('Please fill all fields.');
+                                return;
+                            }
+                            order.customer = { name, email, phone };
+                            showStep(3);
+                        };
+                    }
+
+                    const backTo2Btn = document.getElementById('backTo2');
+                    if (backTo2Btn) {
+                        backTo2Btn.onclick = function () {
+                            showStep(2);
+                        };
+                    }
+
+                    // Step 3: Address
+                    const toStep4Btn = document.getElementById('toStep4');
+                    if (toStep4Btn) {
+                        toStep4Btn.onclick = function () {
+                            const address = document.getElementById('address')?.value?.trim() || '';
+                            const city = document.getElementById('city')?.value?.trim() || '';
+                            const state = document.getElementById('state')?.value?.trim() || '';
+                            const pincode = document.getElementById('pincode')?.value?.trim() || '';
+                            const country = document.getElementById('country')?.value?.trim() || '';
+                            if (!address || !city || !state || !pincode || !country) {
+                                alert('Please fill all address fields.');
+                                return;
+                            }
+                            order.address = { address, city, state, pincode, country };
+                            showStep(4);
+                        };
+                    }
+
+                    const backTo3Btn = document.getElementById('backTo3');
+                    if (backTo3Btn) {
+                        backTo3Btn.onclick = function () {
+                            showStep(3);
+                        };
+                    }
+
+                    // Step 4: Delivery
+                    const toStep5Btn = document.getElementById('toStep5');
+                    if (toStep5Btn) {
+                        toStep5Btn.onclick = function () {
+                            const deliveryRadio = document.querySelector('input[name="delivery"]:checked');
+                            if (deliveryRadio) {
+                                order.delivery = deliveryRadio.value;
+                                order.deliveryCost = deliveryRadio.value === 'Express' ? 199 : 0;
+                                showStep(5);
+                                renderPaymentSummary();
+                            }
+                        };
+                    }
+
+                    const backTo4Btn = document.getElementById('backTo4');
+                    if (backTo4Btn) {
+                        backTo4Btn.onclick = function () {
+                            showStep(4);
+                        };
+                    }
+
+                    // Payment method logic
+                    const payMethods = document.getElementsByName('paymethod');
+                    const payFields = {
+                        UPI: document.getElementById('pay-upi'),
+                        Card: document.getElementById('pay-card'),
+                        'Net Banking': document.getElementById('pay-netbanking'),
+                        COD: document.getElementById('pay-cod')
+                    };
+
+                    function updatePayFields() {
+                        try {
+                            let selected = 'UPI';
+                            for (const pm of payMethods) {
+                                if (pm.checked) selected = pm.value;
+                            }
+                            for (const key in payFields) {
+                                if (payFields[key]) {
+                                    payFields[key].style.display = (key === selected) ? '' : 'none';
+                                }
+                            }
+                            if (selected === 'COD') {
+                                const price = prices[order.product] || 0;
+                                const subtotal = price * order.quantity;
+                                const deliveryCost = order.deliveryCost;
+                                const total = subtotal + deliveryCost;
+                                const advance = Math.round(total * 0.25);
+                                const codAdvanceElement = document.getElementById('codAdvance');
+                                if (codAdvanceElement) {
+                                    codAdvanceElement.textContent = `₹${advance}`;
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Error in updatePayFields:', error);
+                        }
+                    }
+
+                    for (const pm of payMethods) {
+                        pm.addEventListener('change', updatePayFields);
+                    }
+                    updatePayFields();
+
+                    // Pay Now logic
+                    const payNowBtn = document.getElementById('payNow');
+                    if (payNowBtn) {
+                        payNowBtn.onclick = function () {
+                            try {
+                                let selected = 'UPI';
+                                for (const pm of payMethods) {
+                                    if (pm.checked) selected = pm.value;
+                                }
+                                order.payment = selected;
+
+                                // Validate fields
+                                if (selected === 'UPI') {
+                                    const upiId = document.getElementById('upiId')?.value?.trim();
+                                    if (!upiId) {
+                                        alert('Enter UPI ID');
+                                        return;
+                                    }
+                                } else if (selected === 'Card') {
+                                    const cardNum = document.getElementById('cardNum')?.value?.trim();
+                                    const cardName = document.getElementById('cardName')?.value?.trim();
+                                    const cardExpiry = document.getElementById('cardExpiry')?.value?.trim();
+                                    const cardCVV = document.getElementById('cardCVV')?.value?.trim();
+                                    if (!cardNum || !cardName || !cardExpiry || !cardCVV) {
+                                        alert('Fill all card details');
+                                        return;
+                                    }
+                                } else if (selected === 'Net Banking') {
+                                    const bankName = document.getElementById('bankName')?.value?.trim();
+                                    const bankAcc = document.getElementById('bankAcc')?.value?.trim();
+                                    if (!bankName || !bankAcc) {
+                                        alert('Fill all net banking details');
+                                        return;
+                                    }
+                                } else if (selected === 'COD') {
+                                    const codUpi = document.getElementById('codUpi')?.value?.trim();
+                                    if (!codUpi) {
+                                        alert('Enter UPI ID for advance payment');
+                                        return;
+                                    }
+                                    // Simulate advance payment
+                                    const price = prices[order.product] || 0;
+                                    const subtotal = price * order.quantity;
+                                    const deliveryCost = order.deliveryCost;
+                                    const total = subtotal + deliveryCost;
+                                    order.codAdvance = Math.round(total * 0.25);
+                                }
+                                showStep(6);
+                                renderConfirmSummary();
+                            } catch (error) {
+                                console.error('Error in pay now:', error);
+                                alert('An error occurred. Please try again.');
+                            }
+                        };
+                    }
+
+                    // Initialize
+                    renderOrderSummary();
+
+                } catch (error) {
+                    console.error('Error initializing checkout:', error);
+                }
+            });
+
+            // Step 5: Payment
+            function renderPaymentSummary() {
+                try {
+                    const price = prices[order.product] || 0;
+                    const subtotal = price * order.quantity;
+                    const delivery = order.delivery;
+                    const deliveryCost = order.deliveryCost;
+                    const total = subtotal + deliveryCost;
+                    order.total = total;
+                    const paymentSummaryElement = document.getElementById('paymentSummary');
+                    if (paymentSummaryElement) {
+                        paymentSummaryElement.innerHTML = `
+                            <b>Product:</b> ${order.product}<br>
+                            <b>Quantity:</b> ${order.quantity}<br>
+                            <b>Subtotal:</b> ₹${subtotal}<br>
+                            <b>Delivery:</b> ${delivery} ${deliveryCost ? ' (₹' + deliveryCost + ')' : '(Free)'}<br>
+                            <b>Total:</b> <span style="font-size:1.2em;font-weight:bold;">₹${total}</span>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error in renderPaymentSummary:', error);
+                }
+            }
+
+            // Step 6: Confirmation
+            function renderConfirmSummary() {
+                try {
+                    const c = order.customer;
+                    const a = order.address;
+                    let paymentInfo = `<b>Payment Method:</b> ${order.payment}`;
+                    if (order.payment === 'COD') {
+                        paymentInfo += ` (Advance Paid: ₹${order.codAdvance})`;
+                    }
+                    const confirmSummaryElement = document.getElementById('confirmSummary');
+                    if (confirmSummaryElement) {
+                        confirmSummaryElement.innerHTML = `
+                            <b>Product:</b> ${order.product}<br>
+                            <b>Quantity:</b> ${order.quantity}<br>
+                            <b>Total Paid:</b> ₹${order.total}${order.payment === 'COD' ? ` (Advance: ₹${order.codAdvance}, Remaining: ₹${order.total - order.codAdvance} on delivery)` : ''}<br>
+                            <b>Delivery:</b> ${order.delivery}<br>
+                            ${paymentInfo}<br>
+                            <b>Name:</b> ${c.name}<br>
+                            <b>Email:</b> ${c.email}<br>
+                            <b>Phone:</b> ${c.phone}<br>
+                            <b>Address:</b> ${a.address}, ${a.city}, ${a.state}, ${a.pincode}, ${a.country}
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error in renderConfirmSummary:', error);
+                }
+            }
+
+        } catch (error) {
+            console.error('Error in checkout script:', error);
+        }
+
+        // Chatbot logic (same as other pages)
+        try {
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            const chatbotClose = document.getElementById('chatbotClose');
+            const chatbotForm = document.getElementById('chatbotForm');
+            const chatbotInput = document.getElementById('chatbotInput');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+
+            function getChatbotReply(message) {
+                const msg = message.toLowerCase();
+                if (msg.includes('find') && msg.includes('spectacle')) {
+                    return 'To find your spectacles, connect your device using the serial number, then select "Find Your Spectacle Instantly". Our BLE device will help you locate your glasses using WiFi and Bluetooth signals.';
+                }
+                if (msg.includes('health') || msg.includes('lens')) {
+                    return 'To monitor your lens health, connect your device and select "Lens Health Monitoring System". You will see a health percentage and advice on whether your lenses are in good condition.';
+                }
+                if (msg.includes('how') && (msg.includes('use') || msg.includes('operate') || msg.includes('function'))) {
+                    return 'To use Vision Mate: 1) Enter your spectacle serial number to connect. 2) Choose a function: "Find Your Spectacle Instantly" or "Lens Health Monitoring System". Follow the on-screen instructions for each feature!';
+                }
+                if (msg.includes('how') && msg.includes('website')) {
+                    return 'To operate this website, start by connecting your spectacle using its serial number. Then, choose the function you want to use. The chatbot can help you with spectacle finding and lens health monitoring.';
+                }
+                return 'Sorry, I can only help with spectacle finding, using this website, and the two main functions: finding your spectacles and monitoring lens health. Please ask about these topics!';
+            }
+
+            if (chatbotToggle) {
+                chatbotToggle.addEventListener('click', () => {
+                    if (chatbotWindow) chatbotWindow.style.display = 'block';
+                    if (chatbotToggle) chatbotToggle.style.display = 'none';
+                });
+            }
+
+            if (chatbotClose) {
+                chatbotClose.addEventListener('click', () => {
+                    if (chatbotWindow) chatbotWindow.style.display = 'none';
+                    if (chatbotToggle) chatbotToggle.style.display = 'block';
+                });
+            }
+
+            if (chatbotForm) {
+                chatbotForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const userMsg = chatbotInput?.value?.trim();
+                    if (userMsg && chatbotMessages) {
+                        const userDiv = document.createElement('div');
+                        userDiv.className = 'chatbot-message user';
+                        userDiv.textContent = userMsg;
+                        chatbotMessages.appendChild(userDiv);
+                        if (chatbotInput) chatbotInput.value = '';
+                        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                        setTimeout(() => {
+                            const botDiv = document.createElement('div');
+                            botDiv.className = 'chatbot-message bot';
+                            botDiv.textContent = getChatbotReply(userMsg);
+                            chatbotMessages.appendChild(botDiv);
+                            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                        }, 700);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error in chatbot:', error);
+        }
+    </script>
+</body>
+
+</html>

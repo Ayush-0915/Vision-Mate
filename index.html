@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Mate</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo" aria-label="Vision Mate Home"><span class="cursive-logo">Vision
+                Mate</span></a>
+        <ul class="navbar-links">
+            <li><a href="#login" id="loginLink">Login</a></li>
+            <li><a href="pages/signup.html">Sign Up</a></li>
+            <li><a href="pages/buy.html">Buy</a></li>
+            <li><a href="pages/checkout.html">Checkout</a></li>
+            <li><a href="pages/track.html">Track Order</a></li>
+            <li><a href="pages/dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
+    <header>
+        <div class="header-bg">
+            <div class="header-content">
+                <h1><span class="cursive-logo">Vision Mate</span></h1>
+                <p>Find your perfect spectacles with ease!</p>
+            </div>
+        </div>
+    </header>
+    <div class="slogan">
+        <h2>Life's Too Short for Boring Spectacles!</h2>
+    </div>
+    <section class="buy-section">
+        <div class="buy-content">
+            <h3>Get Vision Mate for Your Spectacles</h3>
+            <p>Buy the Vision Mate device and unlock smart features for your glasses. Enjoy instant finding and health
+                monitoring!</p>
+            <a href="pages/buy.html" class="buy-btn">Buy Now</a>
+        </div>
+    </section>
+    <main>
+        <section class="connect-section">
+            <div class="connect-info">
+                <h2>Connect Your Spectacle</h2>
+                <form id="connectForm">
+                    <label for="serialNumber">Enter Serial Number:</label>
+                    <input type="text" id="serialNumber" name="serialNumber" required placeholder="e.g. VM-123456">
+                    <button type="submit">Connect</button>
+                </form>
+                <div id="connectStatus" class="connect-status"></div>
+            </div>
+        </section>
+        <section class="feature-choice-section" style="display:none;">
+            <div class="feature-choice-info">
+                <h2>Choose a Function</h2>
+                <button class="feature-btn" id="findBtn">Find Your Spectacle Instantly</button>
+                <button class="feature-btn" id="healthBtn">Lens Health Monitoring System</button>
+            </div>
+        </section>
+        <div id="featureSections">
+            <!-- Finder and Health sections will be shown here -->
+            <section class="finder-section" style="display:none;">
+                <div class="finder-info">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png" alt="BLE Device"
+                        class="finder-icon">
+                    <h2>Find Your Spectacles Instantly!</h2>
+                    <p>Lost your spectacles? No worries! With Vision Mate's smart finder, use our tiny BLE device to
+                        locate your spectacles using WiFi and Bluetooth signals. Just tap the button below and let
+                        technology guide you to your glasses in seconds.</p>
+                    <button class="finder-btn">Start Finding</button>
+                </div>
+            </section>
+            <section class="health-section" style="display:none;">
+                <div class="health-info">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png" alt="Lens Health"
+                        class="health-icon">
+                    <h2>Lens Health Monitoring</h2>
+                    <p>With Vision Mate embedded in your lenses, monitor the health of your glasses in real time! Our
+                        smart system measures lens clarity, cleanliness, and wear, giving you a health percentage and
+                        letting you know if it's time for a replacement.</p>
+                    <div class="health-bar-container">
+                        <span class="health-label">Lens Health:</span>
+                        <div class="health-bar-bg">
+                            <div class="health-bar" style="width: 87%;"></div>
+                        </div>
+                        <span class="health-percent">87%</span>
+                    </div>
+                    <div class="health-advice">Your lenses are in good condition. Keep using them!</div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social" aria-label="Snapchat">👻</a>
+                    <a href="#" class="footer-social" aria-label="Twitter">🐦</a>
+                    <a href="#" class="footer-social" aria-label="YouTube">📺</a>
+                    <a href="#" class="footer-social" aria-label="Reddit">👽</a>
+                    <a href="#" class="footer-social" aria-label="LinkedIn">💼</a>
+                </div>
+            </div>
+            <div class="footer-section footer-dropdown">
+                <h4 tabindex="0">Company</h4>
+                <div class="footer-dropdown-content">
+                    <a href="#">About Vision Mate</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press</a>
+                </div>
+            </div>
+            <div class="footer-section footer-dropdown">
+                <h4 tabindex="0">Community</h4>
+                <div class="footer-dropdown-content">
+                    <a href="#">User Stories</a>
+                    <a href="#">Events</a>
+                    <a href="#">Blog</a>
+                </div>
+            </div>
+            <div class="footer-section footer-dropdown">
+                <h4 tabindex="0">Legal</h4>
+                <div class="footer-dropdown-content">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+            <div class="footer-section footer-dropdown">
+                <h4 tabindex="0">Support</h4>
+                <div class="footer-dropdown-content">
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">FAQs</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Vision Mate. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Login</h2>
+            <form>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-toggle" id="chatbotToggle">💬</button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <span>Vision Mate Chatbot</span>
+                <button class="chatbot-close" id="chatbotClose">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">Hi! How can I help you with Vision Mate today?</div>
+            </div>
+            <form class="chatbot-input-area" id="chatbotForm">
+                <input type="text" id="chatbotInput" placeholder="Type your message..." autocomplete="off" required />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Modal logic
+        const loginLink = document.getElementById('loginLink');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+
+        loginLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginModal.style.display = 'block';
+        });
+        closeModal.addEventListener('click', function () {
+            loginModal.style.display = 'none';
+        });
+        window.onclick = function (event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = 'none';
+            }
+        }
+
+        // Connection and feature selection logic
+        const connectForm = document.getElementById('connectForm');
+        const connectStatus = document.getElementById('connectStatus');
+        const featureChoiceSection = document.querySelector('.feature-choice-section');
+        const finderSection = document.querySelector('.finder-section');
+        const healthSection = document.querySelector('.health-section');
+        const featureSections = document.getElementById('featureSections');
+        const findBtn = document.getElementById('findBtn');
+        const healthBtn = document.getElementById('healthBtn');
+
+        connectForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const serial = document.getElementById('serialNumber').value.trim();
+            if (serial.length > 0) {
+                connectStatus.textContent = 'Connected to Spectacle: ' + serial;
+                connectStatus.style.color = '#43e97b';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                connectStatus.textContent = 'Please enter a valid serial number.';
+                connectStatus.style.color = '#ff5e62';
+            }
+        });
+        findBtn.addEventListener('click', function () {
+            finderSection.style.display = 'block';
+            healthSection.style.display = 'none';
+        });
+        healthBtn.addEventListener('click', function () {
+            healthSection.style.display = 'block';
+            finderSection.style.display = 'none';
+        });
+        // Hide feature sections initially
+        featureChoiceSection.style.display = 'none';
+        featureSections.style.display = 'none';
+
+        // Chatbot logic
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotForm = document.getElementById('chatbotForm');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+
+        function getChatbotReply(message) {
+            const msg = message.toLowerCase();
+            if (msg.includes('find') && msg.includes('spectacle')) {
+                return 'To find your spectacles, connect your device using the serial number, then select "Find Your Spectacle Instantly". Our BLE device will help you locate your glasses using WiFi and Bluetooth signals.';
+            }
+            if (msg.includes('health') || msg.includes('lens')) {
+                return 'To monitor your lens health, connect your device and select "Lens Health Monitoring System". You will see a health percentage and advice on whether your lenses are in good condition.';
+            }
+            if (msg.includes('how') && (msg.includes('use') || msg.includes('operate') || msg.includes('function'))) {
+                return 'To use Vision Mate: 1) Enter your spectacle serial number to connect. 2) Choose a function: "Find Your Spectacle Instantly" or "Lens Health Monitoring System". Follow the on-screen instructions for each feature!';
+            }
+            if (msg.includes('how') && msg.includes('website')) {
+                return 'To operate this website, start by connecting your spectacle using its serial number. Then, choose the function you want to use. The chatbot can help you with spectacle finding and lens health monitoring.';
+            }
+            return 'Sorry, I can only help with spectacle finding, using this website, and the two main functions: finding your spectacles and monitoring lens health. Please ask about these topics!';
+        }
+
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.style.display = 'block';
+            chatbotToggle.style.display = 'none';
+        });
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.style.display = 'none';
+            chatbotToggle.style.display = 'block';
+        });
+        chatbotForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const userMsg = chatbotInput.value.trim();
+            if (userMsg) {
+                const userDiv = document.createElement('div');
+                userDiv.className = 'chatbot-message user';
+                userDiv.textContent = userMsg;
+                chatbotMessages.appendChild(userDiv);
+                chatbotInput.value = '';
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                setTimeout(() => {
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'chatbot-message bot';
+                    botDiv.textContent = getChatbotReply(userMsg);
+                    chatbotMessages.appendChild(botDiv);
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }, 700);
+            }
+        });
+    </script>
+</body>
+
+</html>
