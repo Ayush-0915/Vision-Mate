@@ -1515,3 +1515,151 @@ footer {
         height: 60px;
     }
 }
+
+/* --- Responsive Enhancements for Mobile & Tablets --- */
+
+@media (max-width: 900px) {
+
+    .main,
+    .dashboard-section,
+    .buy-section,
+    .checkout-container,
+    .track-container,
+    .signup-section,
+    .feature-choice-info,
+    .finder-info,
+    .health-info,
+    .buy-content,
+    .buy-page-section,
+    .order-confirm {
+        max-width: 98vw !important;
+        width: 100vw !important;
+        margin: 0 auto !important;
+        box-sizing: border-box;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    .results-section,
+    .buy-page-section {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+        padding: 1rem 0.2rem !important;
+    }
+
+    .spectacle-card,
+    .buy-page-card,
+    .dashboard-card {
+        max-width: 98vw !important;
+        min-width: 0 !important;
+        margin-bottom: 1.2rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    .dashboard-divider {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        width: 100vw;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+        z-index: 1000;
+    }
+
+    .navbar-links.open {
+        display: flex;
+    }
+
+    .navbar-hamburger {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #185a9d;
+        margin-right: 1.5rem;
+        cursor: pointer;
+        z-index: 1100;
+    }
+}
+
+@media (max-width: 600px) {
+
+    html,
+    body {
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .header-content h1,
+    .slogan h2,
+    .dashboard-hero h1 {
+        font-size: 1.2rem !important;
+    }
+
+    .navbar {
+        flex-direction: row;
+        align-items: center;
+        padding: 0.5rem 0.2rem;
+    }
+
+    .navbar-logo {
+        margin-left: 0.5rem;
+        margin-right: 0;
+        margin-top: 0;
+        justify-content: flex-start;
+    }
+
+    .main,
+    .dashboard-section,
+    .buy-section,
+    .checkout-container,
+    .track-container,
+    .signup-section,
+    .feature-choice-info,
+    .finder-info,
+    .health-info,
+    .buy-content,
+    .buy-page-section,
+    .order-confirm {
+        padding: 0.5rem 0.2rem !important;
+    }
+
+    .spectacle-card img,
+    .dashboard-img,
+    .buy-page-img {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 98vw !important;
+    }
+
+    .footer-main {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    .footer-section {
+        min-width: 0;
+        width: 100%;
+        text-align: center;
+        padding: 0.2rem 0;
+    }
+}
+
+/* Hamburger menu button (hidden by default) */
+.navbar-hamburger {
+    display: none;
+}
+
+/* --- End Responsive Enhancements --- */
