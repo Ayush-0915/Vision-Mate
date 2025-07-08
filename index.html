@@ -146,13 +146,28 @@
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h2>Login</h2>
-            <form>
+            <form id="loginForm">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
                 <button type="submit">Login</button>
+                <button type="button" id="forgotPasswordBtn" class="forgot-password-btn">Forgot Password?</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeForgotModal">&times;</span>
+            <h2>Forgot Password</h2>
+            <form id="forgotPasswordForm">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                <button type="submit">Send Reset Link</button>
+            </form>
+            <div id="forgotPasswordStatus" class="forgot-password-status"></div>
         </div>
     </div>
     <!-- Chatbot Widget -->
@@ -177,6 +192,11 @@
         const loginLink = document.getElementById('loginLink');
         const loginModal = document.getElementById('loginModal');
         const closeModal = document.getElementById('closeModal');
+        const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+        const closeForgotModal = document.getElementById('closeForgotModal');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        const forgotPasswordStatus = document.getElementById('forgotPasswordStatus');
 
         loginLink.addEventListener('click', function (e) {
             e.preventDefault();
@@ -185,9 +205,38 @@
         closeModal.addEventListener('click', function () {
             loginModal.style.display = 'none';
         });
+        closeForgotModal.addEventListener('click', function () {
+            forgotPasswordModal.style.display = 'none';
+        });
+        forgotPasswordBtn.addEventListener('click', function () {
+            loginModal.style.display = 'none';
+            forgotPasswordModal.style.display = 'block';
+        });
+        forgotPasswordForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            if (email) {
+                forgotPasswordStatus.textContent = 'Password reset link sent to ' + email;
+                forgotPasswordStatus.style.color = '#43e97b';
+                forgotPasswordStatus.classList.remove('error');
+                setTimeout(() => {
+                    forgotPasswordModal.style.display = 'none';
+                    forgotPasswordStatus.textContent = '';
+                    forgotPasswordStatus.classList.remove('error');
+                    forgotPasswordForm.reset();
+                }, 3000);
+            } else {
+                forgotPasswordStatus.textContent = 'Please enter a valid email address.';
+                forgotPasswordStatus.style.color = '#ff5e62';
+                forgotPasswordStatus.classList.add('error');
+            }
+        });
         window.onclick = function (event) {
             if (event.target == loginModal) {
                 loginModal.style.display = 'none';
+            }
+            if (event.target == forgotPasswordModal) {
+                forgotPasswordModal.style.display = 'none';
             }
         }
 
